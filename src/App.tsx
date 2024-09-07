@@ -3,10 +3,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { v4 as uuidV4 } from "uuid";
 import { NewNote } from "./components/NewNote";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import { NoteData, RawNoteData, Tag } from "./types";
+import { NoteData, RawNote, Tag, Note } from "./types";
+import { NoteList } from "./components/NoteList";
+import { NoteLayout } from "./components/NoteLayout";
 
 const App = () => {
-  const [notes, setNotes] = useLocalStorage<RawNoteData[]>("NOTES", []);
+  const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
   const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", []);
 
   const notesWithTags = useMemo(() => {
@@ -16,19 +18,36 @@ const App = () => {
     }));
   }, [notes]);
 
-  const onCreateNote = ({ tags, ...data }: NoteData) => {
-    setNotes((prevNotes: NoteData[]) => [
+  const onCreateNote = ({ tags: passedTags, ...data }: NoteData) => {
+    console.log(data);
+    setNotes((prevNotes: Note[]) => [
       ...prevNotes,
-      { ...data, id: uuidV4(), tagIds: tags.map(({ id }) => id) },
+      { ...data, id: uuidV4(), tagIds: passedTags.map(({ id }) => id) },
     ]);
   };
 
+  const addTag = (tag: Tag) => {
+    setTags((prevTags: Tag[]) => [...prevTags, tag]);
+  };
+
   return (
-    <div className="m-4 text-xl">
+    <div className="m-4  text-xl">
       <Routes>
-        <Route path="/" element={<h1>Root</h1>} />
-        <Route path="/new" element={<NewNote onSubmit={onCreateNote} />} />
-        <Route path="/:id">
+        <Route
+          path="/"
+          element={<NoteList notes={notesWithTags} avaiableTags={tags} />}
+        />
+        <Route
+          path="/new"
+          element={
+            <NewNote
+              avaiableTags={tags}
+              onSubmit={onCreateNote}
+              onAddTag={addTag}
+            />
+          }
+        />
+        <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
           <Route index element={<h1>Show</h1>} />
           <Route path="edit" element={<h1>Show Edit</h1>} />
         </Route>

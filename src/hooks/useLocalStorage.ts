@@ -5,7 +5,7 @@ export const useLocalStorage = <T>(
   initialValue: T | (() => T)
 ) => {
   const [value, setValue] = useState(() => {
-    const localValue = localStorage.get(key);
+    const localValue = localStorage.getItem(key);
 
     if (!localValue) {
       return typeof initialValue === "function"
@@ -18,7 +18,7 @@ export const useLocalStorage = <T>(
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value));
-  }, []);
+  }, [key, value]);
 
   return [value, setValue] as [T, typeof setValue];
 };
