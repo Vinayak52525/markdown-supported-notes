@@ -21,7 +21,6 @@ const App = () => {
   }, [notes, tags]);
 
   const onCreateNote = ({ tags: passedTags, ...data }: NoteData) => {
-    console.log(data);
     setNotes((prevNotes: Note[]) => [
       ...prevNotes,
       { ...data, id: uuidV4(), tagIds: passedTags.map(({ id }) => id) },

@@ -23,7 +23,6 @@ export const NoteForm = ({
   const navigate = useNavigate();
   const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
   const handleSubmitNote = (event: FormEvent) => {
-    console.log(event);
     event.preventDefault();
     onSubmit({
       title: titleRef.current!.value,
@@ -56,7 +55,6 @@ export const NoteForm = ({
             }))}
             onCreateOption={(label) => {
               const newTag = { id: uuidV4(), label };
-              console.log(newTag);
               onAddTag(newTag);
               setSelectedTags((prev) => [...prev, newTag]);
             }}
