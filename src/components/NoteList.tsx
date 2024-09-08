@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import { Note, Tag } from "../types";
+import { EditTagsModal } from "./EditTagsModal";
 
 type SimplifiedNote = {
   tags: Tag[];
@@ -11,10 +12,16 @@ type SimplifiedNote = {
 type NoteListProps = {
   notes: Note[];
   avaiableTags: Tag[];
+  onDeleteTag: (id: string) => void;
 };
-export const NoteList = ({ notes, avaiableTags }: NoteListProps) => {
-  const [selectedTags, setSelectedTags] = useState<Tag[]>(avaiableTags);
+export const NoteList = ({
+  notes,
+  avaiableTags,
+  onDeleteTag,
+}: NoteListProps) => {
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -39,7 +46,10 @@ export const NoteList = ({ notes, avaiableTags }: NoteListProps) => {
               Create
             </button>
           </Link>
-          <button className="border-solid border-2 px-4 py-1 rounded-md text-sm">
+          <button
+            className="border-solid border-2 px-4 py-1 rounded-md text-sm"
+            onClick={() => setIsModalOpen(true)}
+          >
             Edit Tags
           </button>
         </div>
@@ -74,11 +84,18 @@ export const NoteList = ({ notes, avaiableTags }: NoteListProps) => {
       </form>
       <div className="grid grid-cols-1 gap-4 sm md:grid-cols-2 lg:grid-cols-3">
         {filteredNotes.map((note) => (
-          <div key={note.id}>
+          <div key={note.id} className="flex flex-col bg-white shadow-md p-4">
             <NoteCard id={note.id} title={note.title} tags={note.tags} />
           </div>
         ))}
       </div>
+      {isModalOpen && (
+        <EditTagsModal
+          avaiableTags={avaiableTags}
+          onDeleteTag={onDeleteTag}
+          handleClose={() => setIsModalOpen(false)}
+        />
+      )}
     </>
   );
 };
@@ -86,7 +103,7 @@ export const NoteList = ({ notes, avaiableTags }: NoteListProps) => {
 const NoteCard = ({ id, title, tags }: SimplifiedNote) => {
   return (
     <Link to={`/${id}`}>
-      <div className="card flex flex-col items-center justify-center border-solid border-2 p-4 gap-1 focus:outline-none focus:translate-y-[-5px] focus:shadow-lg">
+      <div className="card flex flex-col items-center justify-center border-solid border-2 p-4 gap-1 overflow-hidden">
         <h2 className="text-3xl">{title}</h2>
         <span className="flex gap-3 text-xs">
           {tags.map((tag) => (

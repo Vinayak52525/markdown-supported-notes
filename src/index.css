@@ -17,3 +17,16 @@ body {
   translate: 0 -5px;
   box-shadow: 0 5px 8px 0 rgb(0 0 0 / 0.2);
 }
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #a1a4a9; /* Customize thumb color */
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: #ffffff; /* Customize track color */
+}

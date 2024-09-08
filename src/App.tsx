@@ -6,6 +6,8 @@ import { useLocalStorage } from "./hooks/useLocalStorage";
 import { NoteData, RawNote, Tag, Note } from "./types";
 import { NoteList } from "./components/NoteList";
 import { NoteLayout } from "./components/NoteLayout";
+import { Note as NoteComponent } from "./components/Note";
+import { EditNote } from "./components/EditNote";
 
 const App = () => {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
@@ -16,7 +18,7 @@ const App = () => {
       ...note,
       tags: tags.filter((tag) => note.tagIds.includes(tag.id)),
     }));
-  }, [notes]);
+  }, [notes, tags]);
 
   const onCreateNote = ({ tags: passedTags, ...data }: NoteData) => {
     console.log(data);
@@ -26,8 +28,34 @@ const App = () => {
     ]);
   };
 
+  const onUpdateNote = (
+    id: string,
+    { tags: passedTags, ...data }: NoteData
+  ) => {
+    setNotes((prevNotes: Note[]) =>
+      prevNotes.map((note) => {
+        if (note.id === id) {
+          return {
+            ...note,
+            ...data,
+            tagIds: passedTags.map((tag) => tag.id),
+          };
+        }
+        return note;
+      })
+    );
+  };
+
+  const onDeleteNote = (id: string) => {
+    setNotes((prevNotes: Note[]) => prevNotes.filter((note) => note.id !== id));
+  };
+
   const addTag = (tag: Tag) => {
     setTags((prevTags: Tag[]) => [...prevTags, tag]);
+  };
+
+  const deleteTag = (id: string) => {
+    setTags((prevTags: Tag[]) => prevTags.filter((tag) => tag.id !== id));
   };
 
   return (
@@ -35,7 +63,13 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={<NoteList notes={notesWithTags} avaiableTags={tags} />}
+          element={
+            <NoteList
+              notes={notesWithTags}
+              avaiableTags={tags}
+              onDeleteTag={deleteTag}
+            />
+          }
         />
         <Route
           path="/new"
@@ -48,8 +82,20 @@ const App = () => {
           }
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<h1>Show</h1>} />
-          <Route path="edit" element={<h1>Show Edit</h1>} />
+          <Route
+            index
+            element={<NoteComponent onDeleteNote={onDeleteNote} />}
+          />
+          <Route
+            path="edit"
+            element={
+              <EditNote
+                avaiableTags={tags}
+                onSubmit={onUpdateNote}
+                onAddTag={addTag}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

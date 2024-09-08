@@ -8,17 +8,20 @@ type NoteFormProps = {
   avaiableTags: Tag[];
   onSubmit: (data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
-};
+} & Partial<NoteData>;
 
 export const NoteForm = ({
   avaiableTags,
   onSubmit,
   onAddTag,
+  title = "",
+  markdown = "",
+  tags = [],
 }: NoteFormProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
-  const [selectedTags, setSelectedTags] = useState<Tag[]>(avaiableTags);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
   const handleSubmitNote = (event: FormEvent) => {
     console.log(event);
     event.preventDefault();
@@ -37,6 +40,7 @@ export const NoteForm = ({
           <label>Title</label>
           <input
             required
+            defaultValue={title}
             ref={titleRef}
             className="border-solid rounded-sm border-2 p-1 border-gray-200 focus:border-blue-800"
             type="text"
@@ -68,7 +72,13 @@ export const NoteForm = ({
 
       <div className="flex flex-col w-full gap-1">
         <label>Body</label>
-        <textarea required ref={markdownRef} className="border-2" rows={15} />
+        <textarea
+          required
+          ref={markdownRef}
+          defaultValue={markdown}
+          className="border-2"
+          rows={15}
+        />
       </div>
       <div className="flex gap-5 justify-end">
         <button className="bg-blue-600 text-sm px-3 py-1 rounded-sm text-white">

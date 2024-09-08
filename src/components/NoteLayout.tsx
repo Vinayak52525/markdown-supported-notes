@@ -11,5 +11,5 @@ export const NoteLayout = ({ notes }: NoteLayoutProps) => {
 
   if (!note) return <Navigate to="/" replace />;
 
-  return <Outlet />;
+  return <Outlet context={note} />;
 };
