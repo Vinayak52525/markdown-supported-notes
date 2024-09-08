@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
+# Markdown Notes Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A feature-rich notes application built with React, TypeScript, React Router, and Tailwind CSS. This application allows users to add, edit, and delete notes with support for Markdown formatting. Users can categorize notes with multiple tags, filter notes by title or tag, and store them in local storage.
 
-Currently, two official plugins are available:
+**Demo:  https://markdown-supported-notes.vercel.app/**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Add Notes**: Create new notes with Markdown support for rich formatting.
+- **Edit Notes**: Modify existing notes and update their content and tags.
+- **Delete Notes**: Remove notes and their associated tags.
+- **Tag Management**: Add multiple tags to a note and delete unused tags.
+- **Filtering**: Search and filter notes by title or tag.
+- **Local Storage**: Persist notes and tags using local storage for offline access.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies Used
 
-- Configure the top-level `parserOptions` property like this:
+- **React**: For building the user interface.
+- **TypeScript**: For static typing and improved code quality.
+- **React Router**: For routing and navigation.
+- **Tailwind CSS**: For styling and responsive design.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Adding a Note
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. Click on the "Add Note" button.
+2. Enter a title and content for your note.
+3. Add tags as needed.
+4. Click "Save" to create the note.
+
+### Editing a Note
+
+1. Click on the note you wish to edit.
+2. Modify the title, content, or tags.
+3. Click "Save Changes" to update the note.
+
+### Deleting a Note
+
+1. Open the note you wish to delete.
+2. Click the "Delete" button.
+3. Confirm the deletion.
+
+### Filtering Notes
+
+- Use the search bar to filter notes by title.
+- Use the tag filter to view notes associated with specific tags.
+
+## Local Storage
+
+Notes are stored in local storage to ensure they persist across sessions. This means you can close and reopen the application, and your notes will still be available.
+
