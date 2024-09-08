@@ -35,7 +35,7 @@ export const NoteForm = ({
 
   return (
     <form className="flex flex-col gap-8" onSubmit={handleSubmitNote}>
-      <div className="flex justify-between gap-5">
+      <div className="flex flex-col md:flex-row lg:flex-row justify-between gap-5">
         <div className="flex flex-col w-full gap-1">
           <label>Title</label>
           <input
@@ -76,7 +76,7 @@ export const NoteForm = ({
           required
           ref={markdownRef}
           defaultValue={markdown}
-          className="border-2"
+          className="border-2 p-3"
           rows={15}
         />
       </div>

@@ -37,17 +37,19 @@ export const NoteList = ({
   }, [notes, selectedTags, title]);
 
   return (
-    <>
+    <div className="h-full flex flex-col">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl">Notes</h1>
-        <div className="flex gap-4">
+        <h1 className="text-2xl lg:text-4xl md:3xl mb-2 lg:mb-4 font-bold text-center">
+          Notes
+        </h1>
+        <div className="flex gap-4 text-sm">
           <Link to="/new">
-            <button className="bg-blue-500 text-white px-4 py-1 rounded-md text-sm">
+            <button className="bg-blue-500 text-white px-4 py-1 rounded-md ">
               Create
             </button>
           </Link>
           <button
-            className="border-solid border-2 px-4 py-1 rounded-md text-sm"
+            className="border-solid border-2 px-4 py-1 rounded-md "
             onClick={() => setIsModalOpen(true)}
           >
             Edit Tags
@@ -82,9 +84,9 @@ export const NoteList = ({
           />
         </div>
       </form>
-      <div className="grid grid-cols-1 gap-4 sm md:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-col overflow-y-scroll scrollbar-thin ">
         {filteredNotes.map((note) => (
-          <div key={note.id} className="flex flex-col bg-white shadow-md p-4">
+          <div key={note.id} className="flex flex-col bg-white shadow-md p-4 ">
             <NoteCard id={note.id} title={note.title} tags={note.tags} />
           </div>
         ))}
@@ -96,7 +98,7 @@ export const NoteList = ({
           handleClose={() => setIsModalOpen(false)}
         />
       )}
-    </>
+    </div>
   );
 };
 

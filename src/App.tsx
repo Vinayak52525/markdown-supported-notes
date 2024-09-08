@@ -59,7 +59,7 @@ const App = () => {
   };
 
   return (
-    <div className="m-4  text-xl">
+    <div className="px-5 pt-6 lg:px-36 lg:pt-14 md:px-40 md:pt-10 bg-slate-100 h-screen overflow-hidden">
       <Routes>
         <Route
           path="/"

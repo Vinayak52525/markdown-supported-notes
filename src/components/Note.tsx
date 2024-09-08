@@ -10,11 +10,14 @@ export const Note = ({ onDeleteNote }: NoteProps) => {
   const note = useNote();
   const navigate = useNavigate();
   return (
-    <>
-      <div className="flex items-center justify-between mb-4 ">
-        <div className="flex flex-col gap-2 justify-center">
-          <h1 className="text-4xl">{note.title}</h1>
-          <span className="text-xs flex gap-2">
+    <div className="h-full flex flex-col break-words">
+      <div className="flex items-center flex-col justify-between mb-4 gap-4">
+        <div className="flex flex-col gap-2 justify-center items-center">
+          <h1 className="text-2xl lg:text-4xl md:3xl font-bold">
+            {note.title}
+          </h1>
+          <span className="text-xs flex gap-2 items-center">
+            <p className="font-semibold">Tags: </p>
             {note.tags.map((tag) => (
               <p
                 key={tag.id}
@@ -47,7 +50,9 @@ export const Note = ({ onDeleteNote }: NoteProps) => {
           </Link>
         </div>
       </div>
-      <ReactMarkdown>{note.markdown}</ReactMarkdown>
-    </>
+      <ReactMarkdown className="scrollbar-thin h-full overflow-y-scroll">
+        {note.markdown}
+      </ReactMarkdown>
+    </div>
   );
 };
